@@ -35,6 +35,10 @@ if __name__=='__main__':
     parser = optparse.OptionParser()
     (options,args) = parserOption(parser)
 
+    if not os.path.isdir(options.webPath):
+        print("the path of web dir '" + options.webPath + "' is not a dir or does not exsit!")
+        sys.exit()
+
     subprocess.Popen(["bash", "realtime-chart-1.0/bin/realtime-chart"])
     time.sleep(5)
 
