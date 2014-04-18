@@ -55,8 +55,8 @@ if __name__=='__main__':
 
     if (options.perfType == "basic"):
         subprocess.Popen(["java", "-jar", "log-analyzer.jar", tag, options.webPath, options.servers, "CPU,network,disk,memory"])
-        print("start successfully! Now Please visit http://localhost:9000 to view the charts")
 
     if (options.perfType == "top"):
         subprocess.Popen(["java", "-jar", "log-analyzer.jar", tag, options.webPath, options.servers, "CPU,network,disk,memory,top:" + options.process])
 
+    print("start successfully! Now Please visit http://localhost:9000 to view the charts")
