@@ -50,6 +50,7 @@ if __name__=='__main__':
 
     tag = options.tag if options.tag else options.perfType
 
+    subprocess.call(["python", "finish.py"])
     subprocess.Popen(["bash", "realtime-chart-1.0/bin/realtime-chart"])
     time.sleep(5)
 

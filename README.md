@@ -13,7 +13,7 @@ python run.py [options]
 
 通过-w指定最后保存性能图的网页的路径。当跑完性能测试之后，你需要运行finish.sh来结束性能测试，并保存性能图。例子：-w /var/www
 
-运行完run.py之后，你可以通过浏览器访问http://localhost:9000来查看实时性能图。运行完finish.sh之后，通过浏览器访问你-w指定的路径来查看性能图。
+运行完run.py之后，你可以通过浏览器访问http://localhost:9000来查看实时性能图。运行完finish.py之后，通过浏览器访问你-w指定的路径来查看性能图。
 ## 实现
 此工具仅仅只是一个wraper，它利用了另外两个项目：[realtime-chart](https://github.com/cloud-fan/realtime-chart)和[log-analyzer](https://github.com/cloud-fan/log-analyzer).
 
