@@ -40,24 +40,35 @@ def parserOption(parser):
 
     return (options,args)
 
-if __name__=='__main__':
-    parser = optparse.OptionParser()
-    (options,args) = parserOption(parser)
+def check_server_start():
+    logFile = 'realtime-chart-1.0/logs/application.log'
+    while not os.path.isfile(logFile):
+        time.sleep(2)
+    f = open(logFile,'r')
+    content = f.read()
+    while ("Listening for HTTP" not in content):
+        f.close()
+        time.sleep(2)
+        f = open(logFile,'r')
+        content = f.read()
 
-    if not os.path.isdir(options.webPath):
-        print("the path of web dir '" + options.webPath + "' is not a dir or does not exsit!")
-        sys.exit()
+parser = optparse.OptionParser()
+(options,args) = parserOption(parser)
 
-    tag = options.tag if options.tag else options.perfType
+if not os.path.isdir(options.webPath):
+    print("the path of web dir '" + options.webPath + "' is not a dir or does not exsit!")
+    sys.exit()
 
-    subprocess.call(["python", "finish.py"])
-    subprocess.Popen(["bash", "realtime-chart-1.0/bin/realtime-chart"])
-    time.sleep(5)
+tag = options.tag if options.tag else options.perfType
 
-    if (options.perfType == "basic"):
-        subprocess.Popen(["java", "-jar", "log-analyzer.jar", tag, options.webPath, options.servers, "CPU,network,disk,memory"])
+subprocess.call(["python", "finish.py"])
+subprocess.Popen(["bash", "realtime-chart-1.0/bin/realtime-chart"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+check_server_start()
 
-    if (options.perfType == "top"):
-        subprocess.Popen(["java", "-jar", "log-analyzer.jar", tag, options.webPath, options.servers, "CPU,network,disk,memory,top:" + options.process])
+if (options.perfType == "basic"):
+    subprocess.Popen(["java", "-jar", "log-analyzer.jar", tag, options.webPath, options.servers, "CPU,network,disk,memory"])
 
-    print("start successfully! Now Please visit http://localhost:9000 to view the charts")
+if (options.perfType == "top"):
+    subprocess.Popen(["java", "-jar", "log-analyzer.jar", tag, options.webPath, options.servers, "CPU,network,disk,memory,top:" + options.process])
+
+print("start successfully! Now Please visit http://localhost:9000 to view the charts")
