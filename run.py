@@ -8,7 +8,7 @@ import subprocess
 
 def parserOption(parser):
     parser.add_option('-p', '--perf-type', dest='perfType',
-    help='specify the type of performance test to run. now only suppprt basic and top',
+    help='specify the type of performance test to run. now only suppprt basic and top and top with gc(use top-gc as name)',
     default='basic')
 
     parser.add_option("-t", "--tag", dest="tag",
@@ -34,7 +34,7 @@ def parserOption(parser):
     if(not options.servers):
         parser.error('servers not given!')
 
-    if(options.perfType == 'top'):
+    if('top' in options.perfType):
         if(not options.process):
             parser.error('process name not given!')
 
@@ -70,5 +70,8 @@ if (options.perfType == "basic"):
 
 if (options.perfType == "top"):
     subprocess.Popen(["java", "-jar", "log-analyzer.jar", tag, options.webPath, options.servers, "CPU,network,disk,memory,top:" + options.process])
+
+if (options.perfType == "top-gc"):
+    subprocess.Popen(["java", "-jar", "log-analyzer.jar", tag, options.webPath, options.servers, "CPU,network,disk,memory,top:" + options.process + ",GC:" + options.process])
 
 print("start successfully! Now Please visit http://localhost:9000 to view the charts")
