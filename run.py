@@ -14,6 +14,10 @@ def parserOption(parser):
     parser.add_option("-t", "--tag", dest="tag",
     help="specify the tag to prepend to result web pages dir name, default is the perf type")
 
+    parser.add_option("-i", "--interval", dest="interval",
+    help="specify the interval in seconds between chart points, default is 10",
+    default="10")
+
     parser.add_option('-s', '--servers', dest="servers",
     help='specify the servers to monitor in the format of "usename1@hostname1,usename2@hostname2,..."')
 
@@ -66,12 +70,12 @@ subprocess.Popen(["bash", "realtime-chart-1.0/bin/realtime-chart"], stdout=subpr
 check_server_start()
 
 if (options.perfType == "basic"):
-    subprocess.Popen(["java", "-jar", "log-analyzer.jar", tag, options.webPath, options.servers, "CPU,network,disk,memory"])
+    subprocess.Popen(["java", "-jar", "log-analyzer.jar", options.interval, tag, options.webPath, options.servers, "CPU,network,disk,memory"])
 
 if (options.perfType == "top"):
-    subprocess.Popen(["java", "-jar", "log-analyzer.jar", tag, options.webPath, options.servers, "CPU,network,disk,memory,top:" + options.process])
+    subprocess.Popen(["java", "-jar", "log-analyzer.jar", options.interval, tag, options.webPath, options.servers, "CPU,network,disk,memory,top:" + options.process])
 
 if (options.perfType == "top-gc"):
-    subprocess.Popen(["java", "-jar", "log-analyzer.jar", tag, options.webPath, options.servers, "CPU,network,disk,memory,top:" + options.process + ",GC:" + options.process])
+    subprocess.Popen(["java", "-jar", "log-analyzer.jar", options.interval, tag, options.webPath, options.servers, "CPU,network,disk,memory,top:" + options.process + ",GC:" + options.process])
 
 print("start successfully! Now Please visit http://localhost:9000 to view the charts")
