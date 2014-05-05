@@ -44,8 +44,9 @@ def parserOption(parser):
 
     return (options,args)
 
+logFile = 'realtime-chart-1.0/logs/application.log'
+
 def check_server_start():
-    logFile = 'realtime-chart-1.0/logs/application.log'
     while not os.path.isfile(logFile):
         time.sleep(2)
     f = open(logFile,'r')
@@ -66,6 +67,10 @@ if not os.path.isdir(options.webPath):
 tag = options.tag if options.tag else options.perfType
 
 subprocess.call(["python", "finish.py"])
+
+if os.path.isfile(logFile):
+    os.remove(logFile)
+
 subprocess.Popen(["bash", "realtime-chart-1.0/bin/realtime-chart"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 check_server_start()
 
