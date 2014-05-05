@@ -8,7 +8,7 @@ import subprocess
 
 def parserOption(parser):
     parser.add_option('-p', '--perf-type', dest='perfType',
-    help='specify the type of performance test to run. now only suppprt basic and top and top with gc(use top-gc as name)',
+    help='specify the type of performance test to run. now only suppprt basic and top',
     default='basic')
 
     parser.add_option("-t", "--tag", dest="tag",
@@ -73,9 +73,12 @@ if (options.perfType == "basic"):
     subprocess.Popen(["java", "-jar", "log-analyzer.jar", options.interval, tag, options.webPath, options.servers, "CPU,network,disk,memory"])
 
 if (options.perfType == "top"):
-    subprocess.Popen(["java", "-jar", "log-analyzer.jar", options.interval, tag, options.webPath, options.servers, "CPU,network,disk,memory,top:" + options.process])
+    subprocess.Popen(["java", "-jar", "log-analyzer.jar", options.interval, tag, options.webPath, options.servers, "CPU,network,disk,memory,top:{0}".format(options.process)])
 
 if (options.perfType == "top-gc"):
-    subprocess.Popen(["java", "-jar", "log-analyzer.jar", options.interval, tag, options.webPath, options.servers, "CPU,network,disk,memory,top:" + options.process + ",GC:" + options.process])
+    subprocess.Popen(["java", "-jar", "log-analyzer.jar", options.interval, tag, options.webPath, options.servers, "CPU,network,disk,memory,top:{0},GC:{0}".format(options.process)])
+
+if (options.perfType == "top-gc-fdf"):
+    subprocess.Popen(["java", "-jar", "log-analyzer.jar", options.interval, tag, options.webPath, options.servers, "CPU,network,disk,memory,top:{0},GC:{0},FDF:{0}".format(options.process)])
 
 print("start successfully! Now Please visit http://localhost:9000 to view the charts")
