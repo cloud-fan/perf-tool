@@ -19,11 +19,12 @@ def parserOption(parser):
     default="10")
 
     parser.add_option('-s', '--servers', dest="servers",
-    help='specify the servers to monitor in the format of "usename1@hostname1,usename2@hostname2,..."')
+    help='specify the servers to monitor in the format of "usename1@hostname1,usename2@hostname2,..."',
+    default='localhost')
 
     parser.add_option("-w", "--web-path", dest="webPath",
     help='specify the path of web dir to store the result web pages',
-    default='/var/www')
+    default='/tmp')
 
     top = optparse.OptionGroup(parser,'top Options',
     'These Options is used for top mode.')
